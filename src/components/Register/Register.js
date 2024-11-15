@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Register() {
 
@@ -61,9 +62,23 @@ function Register() {
         setErrorMessage(newErrorMessage);
 
         if (valid) {
-            alert("Account Registred")//test
+            sendUserData();
         } else {
             console.log("we have error")//test
+        }
+    }
+
+    async function sendUserData() {
+        try {
+            const data = {
+                email: emailValue,
+                userName: userNameValue,
+                password: passwordValue,
+            }
+            const result = await axios.post('http://localhost:5000/api/auth/register', data);
+            
+        } catch (err) {
+            console.log(err)
         }
     }
 
