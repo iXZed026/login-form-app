@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Register() {
+
+    const [emailValue, setEmailValue] = useState("");
+    const [userNameValue, setUserNameValue] = useState("");
+    const [passwordValue, setPasswordValue] = useState("");
+
     return (
         <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="">
             <div className="container w-4/5 m-auto">
@@ -13,6 +18,7 @@ function Register() {
                             placeholder='Email *'
                             type="text"
                             maxLength={50}
+                            value={emailValue}
                         />
                     </div>
                     <div className='h-20'>
@@ -21,6 +27,7 @@ function Register() {
                             placeholder='Username *'
                             type="text"
                             maxLength={18}
+                            value={userNameValue}
                         />
                     </div>
                     <div className='h-20'>
@@ -29,6 +36,7 @@ function Register() {
                             placeholder='Password *'
                             type="password"
                             maxLength={18}
+                            value={passwordValue}
                         />
                     </div>
                 </div>
