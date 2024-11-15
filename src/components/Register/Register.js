@@ -6,6 +6,13 @@ function Register() {
     const [emailValue, setEmailValue] = useState("");
     const [userNameValue, setUserNameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
+
+
+    const [errorMessage, setErrorMessage] = useState({
+        emailError: "",
+        userNameError: "",
+        passwordError: "",
+    })
     //set input values functions
     function emailValueHandler(e) {
         const value = e.target.value;
@@ -21,42 +28,82 @@ function Register() {
         const value = e.target.value;
         setPasswordValue(value);
     }
+    //send form data
+    function formSubmitHandler(e) {
+        e.preventDefault();
+        let valid = true;
+        const newErrorMessage = { ...errorMessage };
 
+        if (emailValue.trim().length >= 8) {
+            newErrorMessage.emailError = ""
+        } else {
+            // newErrorMessage.emailError = "Email is not valid"
+            valid = false;
+            setEmailValue("")
+        }
+
+        if (userNameValue.trim().length >= 8) {
+            newErrorMessage.userNameError = ""
+        } else {
+            valid = false
+            // newErrorMessage.userNameError = "Username is not valid"
+            setUserNameValue("")
+
+        }
+        if (passwordValue.trim().length >= 8) {
+            newErrorMessage.passwordError = ""
+        } else {
+            valid = false;
+            // newErrorMessage.passwordError = "Password is not valid"
+            setPasswordValue("");
+        }
+
+        setErrorMessage(newErrorMessage);
+
+        if (valid) {
+            alert("Account Registred")//test
+        } else {
+            console.log("we have error")//test
+        }
+    }
 
     return (
-        <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="">
+        <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="" onSubmit={formSubmitHandler}>
             <div className="container w-4/5 m-auto">
                 <h1 className='py-5 text-3xl font-bold mb-4'>Register</h1>
-                <div className='input-items text-gray-400 mb-5'>
+                <div className='input-items text-gray-400 mb-5 text-start'>
                     <div className='h-20'>
                         <input
-                            className='outline-none bg-transparent border-b-2 border-b-gray-300 w-full px-2 py-2'
+                            className='outline-none bg-transparent border-b-2 border-b-gray-300 w-full px-2 py-2 mb-2'
                             placeholder='Email *'
                             type="text"
                             maxLength={50}
                             value={emailValue}
                             onChange={emailValueHandler}
                         />
+                        {errorMessage.emailError && <span className='text-red-500 text-sm'>{errorMessage.emailError}</span>}
                     </div>
                     <div className='h-20'>
                         <input
-                            className='outline-none bg-transparent border-b-2 border-b-gray-300 w-full px-2 py-2'
+                            className='outline-none bg-transparent border-b-2 border-b-gray-300 w-full px-2 py-2 mb-2'
                             placeholder='Username *'
                             type="text"
                             maxLength={18}
                             value={userNameValue}
                             onChange={userNameValueHandler}
                         />
+                        {errorMessage.userNameError && <span className='text-red-500 text-sm'>{errorMessage.userNameError}</span>}
                     </div>
                     <div className='h-20'>
                         <input
-                            className='outline-none bg-transparent border-b-2 border-b-gray-300 w-full px-2 py-2'
+                            className='outline-none bg-transparent border-b-2 border-b-gray-300 w-full px-2 py-2 mb-2'
                             placeholder='Password *'
                             type="password"
                             maxLength={18}
                             value={passwordValue}
                             onChange={passwordValueHandler}
                         />
+                        {errorMessage.passwordError && <span className='text-red-500 text-sm'>{errorMessage.passwordError}</span>}
                     </div>
                 </div>
                 <input
