@@ -6,6 +6,22 @@ function Register() {
     const [emailValue, setEmailValue] = useState("");
     const [userNameValue, setUserNameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
+    //set input values functions
+    function emailValueHandler(e) {
+        const value = e.target.value;
+        setEmailValue(value);
+    }
+
+    function userNameValueHandler(e) {
+        const value = e.target.value;
+        setUserNameValue(value);
+    }
+
+    function passwordValueHandler(e) {
+        const value = e.target.value;
+        setPasswordValue(value);
+    }
+
 
     return (
         <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="">
@@ -19,6 +35,7 @@ function Register() {
                             type="text"
                             maxLength={50}
                             value={emailValue}
+                            onChange={emailValueHandler}
                         />
                     </div>
                     <div className='h-20'>
@@ -28,6 +45,7 @@ function Register() {
                             type="text"
                             maxLength={18}
                             value={userNameValue}
+                            onChange={userNameValueHandler}
                         />
                     </div>
                     <div className='h-20'>
@@ -37,6 +55,7 @@ function Register() {
                             type="password"
                             maxLength={18}
                             value={passwordValue}
+                            onChange={passwordValueHandler}
                         />
                     </div>
                 </div>
