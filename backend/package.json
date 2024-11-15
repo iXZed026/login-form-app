@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "auto-bind": "^5.0.1",
     "config": "^3.3.12",
     "express": "^4.21.1",
     "express-async-error": "^0.0.2",
