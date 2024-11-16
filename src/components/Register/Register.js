@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+
+// import axios from 'axios';
 
 function Register() {
 
@@ -30,57 +30,55 @@ function Register() {
         setPasswordValue(value);
     }
     //send form data
-    function formSubmitHandler(e) {
+    async function formSubmitHandler(e) {
         e.preventDefault();
-        let valid = true;
-        const newErrorMessage = { ...errorMessage };
-
-        if (emailValue.trim().length >= 8) {
-            newErrorMessage.emailError = ""
-        } else {
-            // newErrorMessage.emailError = "Email is not valid"
-            valid = false;
-            setEmailValue("")
-        }
-
-        if (userNameValue.trim().length >= 8) {
-            newErrorMessage.userNameError = ""
-        } else {
-            valid = false
-            // newErrorMessage.userNameError = "Username is not valid"
-            setUserNameValue("")
-
-        }
-        if (passwordValue.trim().length >= 8) {
-            newErrorMessage.passwordError = ""
-        } else {
-            valid = false;
-            // newErrorMessage.passwordError = "Password is not valid"
-            setPasswordValue("");
-        }
-
-        setErrorMessage(newErrorMessage);
-
-        if (valid) {
-            sendUserData();
-        } else {
-            console.log("we have error")//test
-        }
-    }
-
-    async function sendUserData() {
         try {
+            const newErrorMessage = { ...errorMessage };
             const data = {
                 email: emailValue,
                 userName: userNameValue,
                 password: passwordValue,
             }
-            const result = await axios.post('http://localhost:5000/api/auth/register', data);
-            
-        } catch (err) {
-            console.log(err)
+            const response = await fetch("http://localhost:5000/api/auth/register", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            console.log(result)
+
+            if (result.status === 400) {
+                result.data.forEach(d => {
+                    if (d.path == "email") {
+                        newErrorMessage.emailError = d.message
+                    }
+                    if (d.path == "userName") {
+                        newErrorMessage.userNameError = d.message
+                    }
+                    if (d.path == "password") {
+                        newErrorMessage.passwordError = d.message
+                    }
+                    setErrorMessage(newErrorMessage)
+                });
+            } else {
+                newErrorMessage.emailError = ""
+                newErrorMessage.userNameError = ""
+                newErrorMessage.passwordError = ""
+            }
+            setErrorMessage(newErrorMessage)
+
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
         }
     }
+
+    // async function sendUserData() {
+
+    // }
 
     return (
         <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="" onSubmit={formSubmitHandler}>
@@ -127,7 +125,7 @@ function Register() {
                     placeholder='Register'
                 /><br />
                 <div className='text-sm font-semibold space-x-2'>
-                    <span className='text-gray-300'>Already registred? </span><Link className='text-[#289bb8]' to=""> Login</Link>
+                    <span className='text-gray-300'>Already registred? </span><a href='#' className='text-[#289bb8]'> Login</a>
                 </div>
             </div>
         </form>
