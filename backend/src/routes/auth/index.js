@@ -6,6 +6,7 @@ const validate = require("./validate")
 router.post(
     "/register",
     validate.registerValidator(),
+    controller.validate,
     controller.register,
 );
 

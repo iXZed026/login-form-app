@@ -30,6 +30,7 @@ function Register() {
         const value = e.target.value;
         setPasswordValue(value);
     }
+
     //send form data
     async function formSubmitHandler(e) {
         e.preventDefault();
@@ -49,7 +50,7 @@ function Register() {
             });
 
             const result = await response.json();
-            // console.log(result.data)
+            console.log(result)
 
             checkErrorStatus(result, newErrorMessage)
 
