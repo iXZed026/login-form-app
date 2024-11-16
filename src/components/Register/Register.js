@@ -14,6 +14,7 @@ function Register() {
         userNameError: "",
         passwordError: "",
     })
+
     //set input values functions
     function emailValueHandler(e) {
         const value = e.target.value;
@@ -48,26 +49,10 @@ function Register() {
             });
 
             const result = await response.json();
-            console.log(result)
+            // console.log(result.data)
 
-            if (result.status === 400) {
-                result.data.forEach(d => {
-                    if (d.path == "email") {
-                        newErrorMessage.emailError = d.message
-                    }
-                    if (d.path == "userName") {
-                        newErrorMessage.userNameError = d.message
-                    }
-                    if (d.path == "password") {
-                        newErrorMessage.passwordError = d.message
-                    }
-                    setErrorMessage(newErrorMessage)
-                });
-            } else {
-                newErrorMessage.emailError = ""
-                newErrorMessage.userNameError = ""
-                newErrorMessage.passwordError = ""
-            }
+            checkErrorStatus(result, newErrorMessage)
+
             setErrorMessage(newErrorMessage)
 
         } catch (error) {
@@ -76,9 +61,39 @@ function Register() {
         }
     }
 
-    // async function sendUserData() {
+    //This function for set errors message
+    function checkErrorStatus(result, newErrorMessage) {
+        if (result.status === 400) {
+            const emailCheck = result.data.some(item => item.path === "email");
+            const userNameCheck = result.data.some(item => item.path === "userName");
+            const passwordCheck = result.data.some(item => item.path === "password");
+            if (emailCheck) {
+                const findEmail = result.data.find(item => item.path === "email");
+                newErrorMessage.emailError = findEmail.message
+            } else {
+                newErrorMessage.emailError = "";
+            }
+            if (userNameCheck) {
+                const findUserName = result.data.find(item => item.path === "userName");
+                newErrorMessage.userNameError = findUserName.message
+            } else {
+                newErrorMessage.userNameError = "";
+            }
+            if (passwordCheck) {
+                const findPassword = result.data.find(item => item.path === "password");
+                newErrorMessage.passwordError = findPassword.message
+            } else {
+                newErrorMessage.passwordError = "";
+            }
+        }
 
-    // }
+        if (result.status === 200) {
+            console.log("Register Successfuly")
+            newErrorMessage.emailError = "";
+            newErrorMessage.userNameError = "";
+            newErrorMessage.passwordError = "";
+        }
+    }
 
     return (
         <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="" onSubmit={formSubmitHandler}>
