@@ -50,7 +50,7 @@ function Register() {
             });
 
             const result = await response.json();
-            console.log(result)
+            console.log(result.message)
 
             checkErrorStatus(result, newErrorMessage)
 
