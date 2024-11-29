@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import SuccessModal from '../SuccessModal';
 // import axios from 'axios';
 
 function Register() {
@@ -97,6 +97,8 @@ function Register() {
     }
 
     return (
+        <>
+        <SuccessModal />
         <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="" onSubmit={formSubmitHandler}>
             <div className="container w-4/5 m-auto">
                 <h1 className='py-5 text-3xl font-bold mb-4'>Register</h1>
@@ -145,6 +147,7 @@ function Register() {
                 </div>
             </div>
         </form>
+        </>
     )
 }
 
