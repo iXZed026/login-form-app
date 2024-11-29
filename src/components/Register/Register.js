@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SuccessModal from '../SuccessModal';
-// import axios from 'axios';
+import Login from '../Login/Login';
 
 function Register() {
 
@@ -8,6 +8,7 @@ function Register() {
     const [userNameValue, setUserNameValue] = useState("");
     const [passwordValue, setPasswordValue] = useState("");
     const [msg, setMsg] = useState(null);
+    const [isLogin, setIsLogin] = useState(false)
 
 
     const [errorMessage, setErrorMessage] = useState({
@@ -103,7 +104,7 @@ function Register() {
         <>
             {msg && <SuccessModal msg={msg} setMsg={setMsg} />}
             <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="" onSubmit={formSubmitHandler}>
-                <div className="container w-4/5 m-auto">
+                {!isLogin ? (<div className="container w-4/5 m-auto">
                     <h1 className='py-5 text-3xl font-bold mb-4'>Register</h1>
                     <div className='input-items text-gray-400 mb-5 text-start'>
                         <div className='h-20'>
@@ -146,9 +147,14 @@ function Register() {
                         placeholder='Register'
                     /><br />
                     <div className='text-sm font-semibold space-x-2'>
-                        <span className='text-gray-300'>Already registred? </span><a href='#' className='text-[#289bb8]'> Login</a>
+                        <span className='text-gray-300'>Already registred? </span><a href='#login' className='text-[#289bb8]' onClick={()=> setIsLogin(true)}> Login</a>
                     </div>
-                </div>
+                </div>) : (
+                    <>
+                        <Login />
+                    </>
+                )
+                }
             </form>
         </>
     )
