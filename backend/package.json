@@ -11,7 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "auto-bind": "^4.0.0",
+    "bcrypt": "^5.1.1",
     "config": "^3.3.12",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "express-async-error": "^0.0.2",
     "express-validator": "^7.2.0",
