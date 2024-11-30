@@ -104,8 +104,8 @@ function Register() {
         <>
             {msg && <SuccessModal msg={msg} setMsg={setMsg} />}
             {!isLogin ? (
-                    <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="" onSubmit={formSubmitHandler}>
-                <div className="container w-4/5 m-auto">
+                <form className='w-[85%] sm:w-[450px]  bg-[rgba(0,0,0,.5)] rounded-xl py-11 text-center' action="" onSubmit={formSubmitHandler}>
+                    <div className="container w-4/5 m-auto">
                         <h1 className='py-5 text-3xl font-bold mb-4'>Register</h1>
                         <div className='input-items text-gray-400 mb-5 text-start'>
                             <div className='h-20'>
@@ -150,10 +150,10 @@ function Register() {
                         <div className='text-sm font-semibold space-x-2'>
                             <span className='text-gray-300'>Already registred? </span><a href='#login' className='text-[#289bb8]' onClick={() => setIsLogin(true)}> Login</a>
                         </div>
-                </div>
-                    </form>
+                    </div>
+                </form>
             ) : (
-                <Login />
+                <Login setIsLogin={setIsLogin} />
             )
             }
         </>

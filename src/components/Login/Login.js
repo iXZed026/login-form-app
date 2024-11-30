@@ -1,21 +1,15 @@
 import React, { useState } from 'react'
 
-function Login() {
-    //states
-    // const [emailValue, setEmailValue] = useState("");
-    // const [passwordValue, setPasswordValue] = useState("");
+function Login({ setIsLogin }) {
+    //States
     const [input, setInput] = useState({
         emailValue: "",
         passwordValue: "",
     })
-    const [errorMessage, setErrorMessage] = useState({
-        emailError: "",
-        userNameError: "",
-        passwordError: "",
-    })
+    const [errorMessage, setErrorMessage] = useState("")
     const newErrorMessage = { ...errorMessage };
 
-    //set Values
+    //Set Values
     function setValuesHandler(e) {
         const { value, type } = e.target;
         const newValues = { ...input }
@@ -30,8 +24,23 @@ function Login() {
     }
 
 
-    function formSubmitHandler() {
+    async function formSubmitHandler(e) {
+        e.preventDefault();
 
+        const data = {
+            email: input.emailValue,
+            password: input.passwordValue,
+        }
+        const response = await fetch("http://localhost:5000/api/auth/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        console.log(result.message)
     }
 
 
@@ -49,7 +58,6 @@ function Login() {
                             value={input.emailValue}
                             onChange={setValuesHandler}
                         />
-                        {errorMessage.emailError && <span className='text-red-500 text-sm'>{errorMessage.emailError}</span>}
                     </div>
                     <div className='h-20'>
                         <input
@@ -60,16 +68,16 @@ function Login() {
                             value={input.passwordValue}
                             onChange={setValuesHandler}
                         />
-                        {errorMessage.passwordError && <span className='text-red-500 text-sm'>{errorMessage.passwordError}</span>}
+                        {errorMessage && <span className='text-red-500 text-sm'>{errorMessage}</span>}
                     </div>
                 </div>
                 <input
                     className='w-2/5 text-[#289bb8] border-l-4 border-l-[#289bb8] h-10 cursor-pointer bg-[rgba(0,0,0,.1)] mb-7 hover:bg-[rgba(0,0,0,.3)] transition-all'
                     type="submit"
-                    placeholder='Register'
+                    placeholder='login'
                 /><br />
                 <div className='text-sm font-semibold space-x-2'>
-                    <span className='text-gray-300'>Already registred? </span><a href='#login' className='text-[#289bb8]' > Login</a>
+                    <span className='text-gray-300'>Don't have an account? </span><a href='#' className='text-[#289bb8]' onClick={() => setIsLogin(false)}>Register</a>
                 </div>
             </div>
         </form>
