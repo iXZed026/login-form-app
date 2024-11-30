@@ -13,7 +13,6 @@ module.exports = class {
         if (!result.isEmpty()) {
             const errors = result.array();
             let message = [];
-            console.log(errors)
             errors.forEach(err => message.push({ path: err.path, message: err.msg }));
             res.status(400).json({
                 data: message,

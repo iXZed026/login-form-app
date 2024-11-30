@@ -6,7 +6,13 @@ function Login({ setIsLogin }) {
         emailValue: "",
         passwordValue: "",
     })
-    const [errorMessage, setErrorMessage] = useState("")
+
+    const [errorMessage, setErrorMessage] = useState({
+        emailError: "",
+        notFoundError: "",
+        passwordError: "",
+    })
+    // const [errorMessage, setErrorMessage] = useState("")
     const newErrorMessage = { ...errorMessage };
 
     //Set Values
@@ -27,6 +33,8 @@ function Login({ setIsLogin }) {
     async function formSubmitHandler(e) {
         e.preventDefault();
 
+        const newErrorMessage = { ...errorMessage };
+
         const data = {
             email: input.emailValue,
             password: input.passwordValue,
@@ -40,7 +48,42 @@ function Login({ setIsLogin }) {
         });
 
         const result = await response.json();
-        console.log(result.message)
+        console.log(result);
+
+        if (result.status === 404) {
+            newErrorMessage.notFoundError = result.message;
+            newErrorMessage.emailError = "";
+            newErrorMessage.passwordError = "";
+        } else if (result.status === 400) {
+            newErrorMessage.notFoundError = '';
+            if (result.data.length > 0) {
+                const isEmail = result.data.some(err => err.path === "email");
+                const isPassword = result.data.some(err => err.path === "password");
+                if (isEmail) {
+                    result.data.forEach(err => {
+                        if (err.path === 'email') {
+                            newErrorMessage.emailError = err.message
+                        }
+                    })
+                } else {
+                    newErrorMessage.emailError = "";
+                }
+                if (isPassword) {
+                    result.data.forEach(err => {
+                        if (err.path === 'password') {
+                            newErrorMessage.passwordError = err.message
+                        }
+                    })
+                } else {
+                    newErrorMessage.passwordError = "";
+                }
+            }
+        }else {
+            newErrorMessage.notFoundError = "";
+            newErrorMessage.emailError = "";
+            newErrorMessage.passwordError = "";
+        }
+        setErrorMessage(newErrorMessage)
     }
 
 
@@ -58,17 +101,19 @@ function Login({ setIsLogin }) {
                             value={input.emailValue}
                             onChange={setValuesHandler}
                         />
+                        {errorMessage.emailError && <span className='text-red-500 text-sm'>{errorMessage.emailError}</span>}
                     </div>
                     <div className='h-20'>
                         <input
                             className='outline-none bg-transparent border-b-2 border-b-gray-300 w-full px-2 py-2 mb-2'
                             placeholder='Password *'
                             type="password"
-                            maxLength={18}
                             value={input.passwordValue}
                             onChange={setValuesHandler}
                         />
-                        {errorMessage && <span className='text-red-500 text-sm'>{errorMessage}</span>}
+                        {errorMessage.passwordError && <span className='text-red-500 text-sm'>{errorMessage.passwordError}</span>}
+                        {errorMessage.notFoundError && <span className='text-red-500 text-sm'>{errorMessage.notFoundError}</span>}
+
                     </div>
                 </div>
                 <input

@@ -10,8 +10,13 @@ router.post(
     controller.register,
 );
 
-// router.post(
-//     "/register/"
-// )
+router.post(
+    "/login",
+    validate.LoginValidator(),
+    controller.validate,
+    controller.login,
+);
+
+
 
 module.exports = router;
