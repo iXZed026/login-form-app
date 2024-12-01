@@ -49,7 +49,6 @@ function Login({ setIsLogin }) {
         });
 
         const result = await response.json();
-        console.log(result);
 
         if (result.status === 404) {
             newErrorMessage.notFoundError = result.message;
@@ -85,7 +84,6 @@ function Login({ setIsLogin }) {
             //set empty errors
             for (let key in errorMessage) {
                 errorMessage[key] = "";
-                console.log(errorMessage[key])
             }
             setErrorMessage(errorMessage)
             //clear inputs value
