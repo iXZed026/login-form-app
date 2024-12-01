@@ -52,12 +52,10 @@ function Register() {
             });
 
             const result = await response.json();
-            console.log(result.message)
             setMsg(result.status === 200 && result.message);
 
 
             checkErrorStatus(result, newErrorMessage)
-
             setErrorMessage(newErrorMessage)
 
         } catch (error) {
@@ -93,10 +91,12 @@ function Register() {
         }
 
         if (result.status === 200) {
-            console.log("Register Successfuly")
             newErrorMessage.emailError = "";
             newErrorMessage.userNameError = "";
             newErrorMessage.passwordError = "";
+            setEmailValue("");
+            setUserNameValue("");
+            setPasswordValue("");
         }
     }
 
